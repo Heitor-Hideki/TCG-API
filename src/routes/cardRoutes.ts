@@ -1,15 +1,42 @@
 import { Router } from "express";
-import { Card, CharacterCard } from "../models/cardModel";
+import { CreateCardService } from "../services/Cards/CreateCardService";
+import { LeaderCard } from "../models/cardModel";
+import { DeleteCardService } from "../services/Cards/DeleteCardService";
 
 const cardRoutes = Router();
 
-cardRoutes.get('/', (request, response) => {
-  const Jinbe: CharacterCard = new CharacterCard({cost: 7});
-  const summonCard = (card: Card) => {
-    card.summon();
-  }
+cardRoutes.get('/:name', (request, response) => {
+  response.status(200).json({})
+})
 
-  summonCard(Jinbe);
+cardRoutes.get('/listAll', (request, response) => {
+  response.status(200).json({})
+})
+
+cardRoutes.post('/leader', (request, response) => {
+  const {
+    name,
+    colors,
+    rarity
+  } = request.body
+
+  const card = new LeaderCard(name, colors, rarity)
+
+  const createCardService = new CreateCardService();
+  createCardService.createLeader(card);
+
+  response.status(200).json({})
+})
+
+cardRoutes.patch('/:name', (request, response) => {
+  response.status(200).json({})
+})
+
+cardRoutes.delete('/:name', (request, response) => {
+  const { name } = request.params
+
+  const deleteCardService = new DeleteCardService();
+  deleteCardService.execute({name})
 
   response.status(200).json({})
 })
