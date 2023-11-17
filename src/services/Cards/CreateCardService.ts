@@ -1,12 +1,22 @@
-import { Card, CharacterCard, DONCard, EventCard, LeaderCard, StageCard } from "../../models/cardModel";
+import { Card, CharacterCard, DONCard, EventCard, LeaderCard, StageCard } from "../../DTO/cardModel";
+
+import { TCard, TLeaderCard  } from "../../types/TCard";
 
 class CreateCardService {
-  private create(card: Card){
-    card.create()    
+  private create(card: TCard){
+    const cardModel = new Card(card.name)
+
+    cardModel.create()
   }
 
-  public createLeader(card: LeaderCard){
-    card.validate();
+  public createLeader(card: TLeaderCard){
+    const leaderCardModel = new LeaderCard(
+      card.name,
+      card.colors,
+      card.rarity,
+    );
+
+    leaderCardModel.validate();
     this.create(card);
   }
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CreateCardService } from "../services/Cards/CreateCardService";
-import { LeaderCard } from "../models/cardModel";
+import { LeaderCard } from "../DTO/cardModel";
 import { DeleteCardService } from "../services/Cards/DeleteCardService";
 
 const cardRoutes = Router();
@@ -20,10 +20,14 @@ cardRoutes.post('/leader', (request, response) => {
     rarity
   } = request.body
 
-  const card = new LeaderCard(name, colors, rarity)
+  // const card = new LeaderCard(name, colors, rarity)
 
   const createCardService = new CreateCardService();
-  createCardService.createLeader(card);
+  createCardService.createLeader({
+    name,
+    colors,
+    rarity,
+  });
 
   response.status(200).json({})
 })

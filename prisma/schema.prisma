@@ -7,17 +7,98 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-model cards {
-  id   Int     @unique @default(autoincrement())
-  name String? @db.VarChar(255)
+model Users {
+  id   String @id @default(cuid())
+  name String
 
-  @@ignore
+  type enum_user_types
+
+  User_Decks User_Decks[]
+  User_Cards User_Cards[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-model users {
-  id Int @unique @default(autoincrement())
+model Decks {
+  id   String @id @default(cuid())
+  name String
 
-  @@ignore
+  color enum_card_colors
+
+  Deck_Cards Deck_Cards?
+  User_Decks User_Decks[]
+}
+
+model Deck_Cards {
+  id      String @id @default(cuid())
+  deck_id String @unique()
+  card_id String
+
+  decks Decks @relation(fields: [deck_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  cards Cards @relation(fields: [card_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+}
+
+model Cards {
+  id             String   @id @default(cuid())
+  name           String
+  affiliation    String[]
+  cost           Int?
+  power          Int?
+  counter        Int?
+  effect         String?
+  trigger_effect String?
+
+  card_type enum_card_types
+  rarity    enum_card_rarities
+  colors    enum_card_colors[]
+
+  Deck_Cards Deck_Cards[]
+  User_Cards User_Cards[]
+}
+
+model User_Decks {
+  id      Int    @id @default(autoincrement())
+  user_id String
+  deck_id String
+
+  users Users @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  decks Decks @relation(fields: [deck_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+}
+
+model User_Cards {
+  id       Int    @id @default(autoincrement())
+  quantity Int
+  user_id  String
+  card_id  String
+
+  users Users @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  cards Cards @relation(fields: [card_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+}
+
+enum enum_user_types {
+  REGULAR
+  ADMIN
+}
+
+enum enum_card_colors {
+  RED
+  GREEN
+  BLUE
+  PURPLE
+  BLACK
+  YELLOW
+}
+
+enum enum_card_rarities {
+  COMMON
+  UNCOMMON
+  RARE
+  SUPER_RARE
+  SECRET_RARE
+  LEADER
+}
+
+enum enum_card_types {
+  LEADER
+  CHARACTER
+  EVENT
+  STAGE
 }
