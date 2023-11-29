@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { CreateCardService } from "../services/Cards/CreateCardService";
-import { LeaderCard } from "../DTO/cardModel";
-import { DeleteCardService } from "../services/Cards/DeleteCardService";
+import { CreateCardController } from "../controllers/Cards/CreateCardController";
+import { DeleteCardService } from "../controllers/Cards/DeleteCardService";
+import { randomUUID } from 'crypto'
 
 const cardRoutes = Router();
 
@@ -13,20 +13,27 @@ cardRoutes.get('/listAll', (request, response) => {
   response.status(200).json({})
 })
 
-cardRoutes.post('/leader', (request, response) => {
+cardRoutes.post('/leader', async (request, response) => {
   const {
     name,
-    colors,
-    rarity
-  } = request.body
-
-  // const card = new LeaderCard(name, colors, rarity)
-
-  const createCardService = new CreateCardService();
-  createCardService.createLeader({
-    name,
+    affiliation,
     colors,
     rarity,
+    health,
+    power,
+    effect,
+  } = request.body
+
+  const createCardController = new CreateCardController();
+  await createCardController.createLeader({
+    id: randomUUID(),
+    name,
+    affiliation,
+    colors,
+    rarity,
+    health,
+    power,
+    effect,
   });
 
   response.status(200).json({})

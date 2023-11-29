@@ -1,14 +1,22 @@
 import { enum_card_colors, enum_card_rarities } from "@prisma/client";
 import { AppError } from "../errors/AppError";
+import { TCard, TCharacterCard, TEventCard, TLeaderCard, TStageCard } from "../types/TCard";
+import { CreateCardService } from "../services/cards/CreateCardService";
 
 export class Card {
-  private id: String;
-  private name: String;
-  private affiliation: String[];
+  private id: string;
+  private name: string;
+  private affiliation: string[];
   private colors: enum_card_colors[];
   private rarity: enum_card_rarities;
 
-  constructor(id: string, name: string, affiliation: string[], colors: enum_card_colors[], rarity: enum_card_rarities) {
+  constructor(
+    id: string,
+    name: string,
+    affiliation: string[],
+    colors: enum_card_colors[],
+    rarity: enum_card_rarities
+  ) {
     this.id = id;
     this.name = name;
     this.affiliation = affiliation;
@@ -19,19 +27,29 @@ export class Card {
   public get(): Card {
     return this
   }
-  public create(): void {}
+  public getInfos(): TCard {
+    return {
+      id: this.id,
+      name: this.name,
+      affiliation: this.affiliation,
+      colors: this.colors,
+      rarity: this.rarity,
+    }
+  }
+  public create(createCardService: CreateCardService): void {}
   public update(): void {}
   public delete(): void {}
 }
 
 export class LeaderCard extends Card {
-  private power: number = 5000;
-  private cost: number;
-  private effect: String;
+  private health: number;
+  private power: number;
+  private effect: string;
 
-  constructor(id: string, name: string, affiliation: string[], colors: enum_card_colors[], rarity: enum_card_rarities, cost: number, effect: string){
+  constructor(id: string, name: string, affiliation: string[], colors: enum_card_colors[], rarity: enum_card_rarities, health: number, power: number, effect: string){
     super(id, name, affiliation, colors, rarity);
-    this.cost = cost;
+    this.health = health;
+    this.power = power;
     this.effect = effect;
   }
 
@@ -39,8 +57,22 @@ export class LeaderCard extends Card {
     return this
   }
 
-  public create(): void {
-    console.log("created leader")
+  public getLeaderInfos(): TLeaderCard {
+    const extendedInfos = this.getInfos()
+    return {
+      id: extendedInfos.id,
+      name: extendedInfos.name,
+      affiliation: extendedInfos.affiliation,
+      colors: extendedInfos.colors,
+      rarity: extendedInfos.rarity,
+      health: this.health,
+      power: this.power,
+      effect: this.effect
+    }
+  }
+
+  public async create(createCardService: CreateCardService): Promise<void> {
+    await createCardService.createLeader(this)
   }
 
   public update(): void {
@@ -52,9 +84,7 @@ export class LeaderCard extends Card {
   }
 
   public validate(): void {
-    if(this.alreadyExists()){
-      throw new AppError('Card already exists')
-    }
+    throw new AppError('Card already exists')
   }
 
   public alreadyExists(): boolean {
@@ -62,46 +92,12 @@ export class LeaderCard extends Card {
   }
 }
 
-// export class DONCard extends Card {
-//   public rested: boolean = false;
-
-//   constructor(card: Card){
-//     super(card.name);
-//   }
-
-//   public get(): DONCard {
-//     return this
-//   }
-
-//   public create(): void {
-//     console.log("created DON")
-//   }
-
-//   public update(): void {
-//     console.log("updated DON")
-//   }
-
-//   public delete(): void {
-//     console.log("deleted DON")
-//   }
-
-//   public validate(): void {
-//     if(this.alreadyExists()){
-//       throw new AppError('Card already exists')
-//     }
-//   }
-
-//   public alreadyExists(): boolean {
-//     return false;
-//   }
-// }
-
 export class CharacterCard extends Card {
   private power: number;
   private cost: number;
   private counter: number|null;
-  private effect: String|null;
-  private trigger_effect: String|null;
+  private effect: string|null;
+  private trigger_effect: string|null;
 
   constructor(
     id: string,
@@ -127,8 +123,24 @@ export class CharacterCard extends Card {
     return this
   }
 
-  public create(): void {
-    console.log("created Character")
+  public getCharacterInfos(): TCharacterCard {
+    const extendedInfos = this.getInfos()
+    return {
+      id: extendedInfos.id,
+      name: extendedInfos.name,
+      affiliation: extendedInfos.affiliation,
+      colors: extendedInfos.colors,
+      rarity: extendedInfos.rarity,
+      power: this.power,
+      cost: this.cost,
+      counter: this.counter,
+      effect: this.effect,
+      trigger_effect: this.trigger_effect,
+    }
+  }
+
+  public async create(createCardService: CreateCardService): Promise<void> {
+    await createCardService.createCharacter(this)
   }
 
   public update(): void {
@@ -152,8 +164,8 @@ export class CharacterCard extends Card {
 
 export class EventCard extends Card {
   private cost: number;
-  private effect: String|null;
-  private trigger_effect: String|null;
+  private effect: string|null;
+  private trigger_effect: string|null;
 
   constructor(
     id: string,
@@ -175,8 +187,22 @@ export class EventCard extends Card {
     return this
   }
 
-  public create(): void {
-    console.log("created Event")
+  public getEventInfos(): TEventCard {
+    const extendedInfos = this.getInfos()
+    return {
+      id: extendedInfos.id,
+      name: extendedInfos.name,
+      affiliation: extendedInfos.affiliation,
+      colors: extendedInfos.colors,
+      rarity: extendedInfos.rarity,
+      cost: this.cost,
+      effect: this.effect,
+      trigger_effect: this.trigger_effect,
+    }
+  }
+
+  public async create(createCardService: CreateCardService): Promise<void> {
+    await createCardService.createEvent(this)
   }
 
   public update(): void {
@@ -200,7 +226,7 @@ export class EventCard extends Card {
 
 export class StageCard extends Card {
   private cost: number;
-  private effect: String|null;
+  private effect: string|null;
 
   constructor(
     id: string,
@@ -220,8 +246,22 @@ export class StageCard extends Card {
     return this
   }
 
-  public create(): void {
-    console.log("created Stage")
+  public getStageInfos(): TStageCard {
+    const extendedInfos = this.getInfos()
+    return {
+      id: extendedInfos.id,
+      name: extendedInfos.name,
+      affiliation: extendedInfos.affiliation,
+      colors: extendedInfos.colors,
+      rarity: extendedInfos.rarity,
+      cost: this.cost,
+      effect: this.effect,
+    }
+  }
+
+
+  public async create(createCardService: CreateCardService): Promise<void> {
+    createCardService.createStage(this);
   }
 
   public update(): void {

@@ -8,15 +8,15 @@ class DeleteCardService {
   public execute({
     name
   }: Request) {
-    const card = this.locate(name)
-    card.delete();
+    // const card = this.locate(name)
+    // card.delete();
   }
 
-  private locate(name: string): Card {
-    const card = new Card(name);
+  // private locate(name: string): Card {
+    // const card = new Card(name);
 
-    return card
-  }
+    // return card
+  // }
 }
 
 export { DeleteCardService }

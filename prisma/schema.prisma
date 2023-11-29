@@ -41,6 +41,7 @@ model Cards {
   name           String
   affiliation    String[]
   cost           Int?
+  health         Int?
   power          Int?
   counter        Int?
   effect         String?

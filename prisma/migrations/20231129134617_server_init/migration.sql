@@ -41,7 +41,7 @@ CREATE TABLE "Deck_Cards" (
 CREATE TABLE "Cards" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "affiliation" TEXT NOT NULL,
+    "affiliation" TEXT[],
     "cost" INTEGER,
     "power" INTEGER,
     "counter" INTEGER,
@@ -49,7 +49,7 @@ CREATE TABLE "Cards" (
     "trigger_effect" TEXT,
     "card_type" "enum_card_types" NOT NULL,
     "rarity" "enum_card_rarities" NOT NULL,
-    "colors" "enum_card_colors" NOT NULL,
+    "colors" "enum_card_colors"[],
 
     CONSTRAINT "Cards_pkey" PRIMARY KEY ("id")
 );
