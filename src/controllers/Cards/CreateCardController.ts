@@ -1,13 +1,12 @@
 import { Card, CharacterCard, EventCard, LeaderCard, StageCard } from "../../DTO/cardModel";
-import { CardsRepository } from "../../repositories/cardsRepository";
 import { CreateCardService } from "../../services/cards/CreateCardService";
 
 import { TCharacterCard, TEventCard, TLeaderCard, TStageCard  } from "../../types/TCard";
 
 class CreateCardController {
   private async create(card: Card){
-    const createCardsService = new CreateCardService();
-    await card.create(createCardsService)
+    const createCardService = new CreateCardService();
+    await card.create(createCardService)
   }
 
   public async createLeader(card: TLeaderCard){

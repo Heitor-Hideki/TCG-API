@@ -2,6 +2,8 @@ import { Router } from "express";
 import { CreateCardController } from "../controllers/Cards/CreateCardController";
 import { DeleteCardService } from "../controllers/Cards/DeleteCardService";
 import { randomUUID } from 'crypto'
+import { UpdateCardController } from "../controllers/Cards/UpdateCardContreoller";
+import { FindCardService } from "../services/cards/FindCardService";
 
 const cardRoutes = Router();
 
@@ -39,7 +41,13 @@ cardRoutes.post('/leader', async (request, response) => {
   response.status(200).json({})
 })
 
-cardRoutes.patch('/:name', (request, response) => {
+cardRoutes.patch('/:id', async (request, response) => {
+  const { id } = request.params;
+
+  const findCardService = new FindCardService();
+  const updateCardController = new UpdateCardController(findCardService);
+  await updateCardController.update(id);
+
   response.status(200).json({})
 })
 

@@ -1,0 +1,5 @@
+class UpdateCardService {
+
+}
+
+export { UpdateCardService }

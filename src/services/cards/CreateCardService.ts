@@ -2,7 +2,7 @@ import { CharacterCard, EventCard, LeaderCard, StageCard } from "../../DTO/cardM
 import { CardsRepository } from "../../repositories/cardsRepository";
 
 class CreateCardService {
-  private cardsRepository: CardsRepository = new CardsRepository();
+  private readonly cardsRepository: CardsRepository = new CardsRepository();
 
   public async createLeader(card: LeaderCard){
     await this.cardsRepository.createLeader(card)

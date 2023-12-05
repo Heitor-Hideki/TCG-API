@@ -2,6 +2,7 @@ import { enum_card_colors, enum_card_rarities } from "@prisma/client";
 import { AppError } from "../errors/AppError";
 import { TCard, TCharacterCard, TEventCard, TLeaderCard, TStageCard } from "../types/TCard";
 import { CreateCardService } from "../services/cards/CreateCardService";
+import { UpdateCardService } from "../services/cards/UpdateCardService";
 
 export class Card {
   private id: string;
@@ -37,7 +38,7 @@ export class Card {
     }
   }
   public create(createCardService: CreateCardService): void {}
-  public update(): void {}
+  public update(updateCardService: UpdateCardService): void {}
   public delete(): void {}
 }
 
@@ -46,7 +47,16 @@ export class LeaderCard extends Card {
   private power: number;
   private effect: string;
 
-  constructor(id: string, name: string, affiliation: string[], colors: enum_card_colors[], rarity: enum_card_rarities, health: number, power: number, effect: string){
+  constructor(
+    id: string,
+    name: string,
+    affiliation: string[],
+    colors: enum_card_colors[],
+    rarity: enum_card_rarities,
+    health: number,
+    power: number,
+    effect: string
+  ){
     super(id, name, affiliation, colors, rarity);
     this.health = health;
     this.power = power;
@@ -75,7 +85,7 @@ export class LeaderCard extends Card {
     await createCardService.createLeader(this)
   }
 
-  public update(): void {
+  public async update(updateCardService: UpdateCardService): Promise<void> {
     console.log("updated leader")
   }
 
@@ -143,7 +153,7 @@ export class CharacterCard extends Card {
     await createCardService.createCharacter(this)
   }
 
-  public update(): void {
+  public async update(updateCardService: UpdateCardService): Promise<void> {
     console.log("updated Character")
   }
 
@@ -205,7 +215,7 @@ export class EventCard extends Card {
     await createCardService.createEvent(this)
   }
 
-  public update(): void {
+  public async update(updateCardService: UpdateCardService): Promise<void> {
     console.log("updated Event")
   }
 
@@ -264,7 +274,7 @@ export class StageCard extends Card {
     createCardService.createStage(this);
   }
 
-  public update(): void {
+  public async update(updateCardService: UpdateCardService): Promise<void> {
     console.log("updated Stage")
   }
 

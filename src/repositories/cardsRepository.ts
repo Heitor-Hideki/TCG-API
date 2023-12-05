@@ -88,7 +88,7 @@ class CardsRepository {
     }
   }
 
-  public async findCard(id: string){
+  public async findById(id: string){
     try{
       const result = await prisma.cards.findUnique({
         where: {
