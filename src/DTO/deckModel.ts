@@ -1,4 +1,4 @@
-import { Card } from "./cardModel";
+import { Card } from "./CreateCardDTO";
 
 export class Deck {
   private cards: Card[];

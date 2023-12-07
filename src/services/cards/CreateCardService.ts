@@ -1,23 +1,18 @@
-import { CharacterCard, EventCard, LeaderCard, StageCard } from "../../DTO/cardModel";
-import { CardsRepository } from "../../repositories/cardsRepository";
+import { ICreateCardDTO } from "../../DTO/CreateCardDTO";
+import { AppError } from "../../errors/AppError";
+import { ICardsRepository } from "../../repositories/ICardsRepository";
 
 class CreateCardService {
-  private readonly cardsRepository: CardsRepository = new CardsRepository();
+  constructor(
+    private cardsRepository: ICardsRepository
+  ){}
 
-  public async createLeader(card: LeaderCard){
-    await this.cardsRepository.createLeader(card)
-  }
+  public async execute(data: ICreateCardDTO) {
+    const findCard = await this.cardsRepository.findById(data.id);
 
-  public async createCharacter(card: CharacterCard){
-    await this.cardsRepository.createCharacter(card)
-  }
-
-  public async createEvent(card: EventCard){
-    await this.cardsRepository.createEvent(card)
-  }
-
-  public async createStage(card: StageCard){
-    await this.cardsRepository.createStage(card)
+    if(findCard) {
+      throw new AppError('Card already exists');
+    }
   }
 }
 

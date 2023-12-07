@@ -1,4 +1,4 @@
-import { Card } from "../../DTO/cardModel";
+import { Card } from "../../DTO/CreateCardDTO";
 
 interface Request {
   name: string;

@@ -1,4 +1,4 @@
-import { Card } from "../../DTO/cardModel";
+import { Card } from "../../DTO/CreateCardDTO";
 import { AppError } from "../../errors/AppError";
 import { FindCardService } from "../../services/cards/FindCardService";
 import { UpdateCardService } from "../../services/cards/UpdateCardService";

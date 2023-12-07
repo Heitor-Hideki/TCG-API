@@ -1,4 +1,4 @@
-import { Card, CharacterCard, EventCard, LeaderCard, StageCard } from "../../DTO/cardModel";
+import { Card, CharacterCard, EventCard, LeaderCard, StageCard } from "../../DTO/CreateCardDTO";
 import { CreateCardService } from "../../services/cards/CreateCardService";
 
 import { TCharacterCard, TEventCard, TLeaderCard, TStageCard  } from "../../types/TCard";

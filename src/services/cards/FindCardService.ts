@@ -1,4 +1,4 @@
-import { Card, CharacterCard, EventCard, LeaderCard, StageCard } from "../../DTO/cardModel";
+import { Card, CharacterCard, EventCard, LeaderCard, StageCard } from "../../DTO/CreateCardDTO";
 import { CardsRepository } from "../../repositories/cardsRepository";
 
 class FindCardService {
