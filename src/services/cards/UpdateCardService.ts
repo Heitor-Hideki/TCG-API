@@ -1,5 +1,0 @@
-class UpdateCardService {
-
-}
-
-export { UpdateCardService }

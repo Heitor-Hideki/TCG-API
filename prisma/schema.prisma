@@ -40,6 +40,7 @@ model Cards {
   id             String   @id @default(cuid())
   name           String
   affiliation    String[]
+  art            String   @unique
   cost           Int?
   health         Int?
   power          Int?

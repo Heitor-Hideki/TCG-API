@@ -5,6 +5,7 @@ export class Card {
   public id: string;
 
   public name: string;
+  public art: string;
   public affiliation: string[];
   public colors: enum_card_colors[];
   public rarity: enum_card_rarities;
