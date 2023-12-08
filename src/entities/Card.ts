@@ -1,7 +1,7 @@
 import { enum_card_colors, enum_card_rarities } from "@prisma/client";
 import { randomUUID } from 'crypto'
 
-export class Card {
+export abstract class Card {
   public id: string;
 
   public name: string;

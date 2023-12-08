@@ -1,9 +1,8 @@
-import { $Enums, Cards, PrismaClient } from '@prisma/client'
+import { Cards, PrismaClient } from '@prisma/client'
 import { AppError } from '../errors/AppError';
 import { ICardsRepository } from './ICardsRepository';
-import { Card } from '../entities/Card';
 import { randomUUID } from 'crypto'
-import { ICreateCardDTO } from '../DTO/CreateCardDTO';
+import { ICreateCardDTO } from '../useCases/CreateCard/CreateCardDTO';
 
 const prisma = new PrismaClient();
 

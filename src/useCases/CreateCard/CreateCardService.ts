@@ -1,6 +1,7 @@
 import { ICreateCardDTO } from "./CreateCardDTO";
 import { AppError } from "../../errors/AppError";
 import { ICardsRepository } from "../../repositories/ICardsRepository";
+import { Card } from "../../entities/Card";
 
 class CreateCardService {
   constructor(
