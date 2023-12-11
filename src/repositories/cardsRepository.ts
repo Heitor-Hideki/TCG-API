@@ -2,7 +2,11 @@ import { Cards, PrismaClient } from '@prisma/client'
 import { AppError } from '../errors/AppError';
 import { ICardsRepository } from './ICardsRepository';
 import { randomUUID } from 'crypto'
-import { ICreateCardDTO } from '../useCases/CreateCard/CreateCardDTO';
+import { CreateCardModel } from '../useCases/CreateCard/CreateCardModel';
+import { LeaderCardModel } from '../models/LeaderCardModel';
+import { CharacterCardModel } from '../models/CharacterCardModel';
+import { EventCardModel } from '../models/EventCardModel';
+import { StageCardModel } from '../models/StageCardModel';
 
 const prisma = new PrismaClient();
 
@@ -48,27 +52,43 @@ class CardsRepository implements ICardsRepository {
     }
   }
 
-  public async createCard(data: ICreateCardDTO): Promise<void> {
+  public async createLeader(card: LeaderCardModel): Promise<void> {
     try {
       await prisma.cards.create({
-        data: {
-          id: randomUUID(),
-          name: data.name,
-          card_type: data.cardType,
-          art: data.art,
-          rarity: data.rarity,
-          affiliation: data.affiliation,
-          colors: data.colors,
-          cost: data.cost,
-          counter: data.counter,
-          effect: data.effect,
-          health: data.health,
-          power: data.power,
-          trigger_effect: data.triggerEffect
-        }
+        data: {...card, card_type: 'LEADER'}
       });
     } catch (error) {
-      throw new AppError('Error creating card')
+      throw new AppError('Error creating leader')
+    }
+  }
+
+  public async createCharacter(card: CharacterCardModel): Promise<void> {
+    try {
+      await prisma.cards.create({
+        data: {...card, card_type: 'CHARACTER'}
+      });
+    } catch (error) {
+      throw new AppError('Error creating character')
+    }
+  }
+
+  public async createEvent(card: EventCardModel): Promise<void> {
+    try {
+      await prisma.cards.create({
+        data: {...card, card_type: 'EVENT'}
+      });
+    } catch (error) {
+      throw new AppError('Error creating event')
+    }
+  }
+
+  public async createStage(card: StageCardModel): Promise<void> {
+    try {
+      await prisma.cards.create({
+        data: {...card, card_type: 'STAGE'}
+      });
+    } catch (error) {
+      throw new AppError('Error creating stage')
     }
   }
 }

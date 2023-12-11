@@ -1,21 +1,29 @@
-import { ICreateCardDTO } from "./CreateCardDTO";
+import { CreateCardModel } from "./CreateCardModel";
 import { AppError } from "../../errors/AppError";
 import { ICardsRepository } from "../../repositories/ICardsRepository";
-import { Card } from "../../entities/Card";
 
 class CreateCardService {
   constructor(
     private readonly cardsRepository: ICardsRepository
   ){}
 
-  public async execute(data: ICreateCardDTO) {
+  public async execute(data: CreateCardModel) {
     const findCard = await this.cardsRepository.findByArt(data.art);
 
     if(findCard) {
       throw new AppError('Card already exists');
     };
 
-    await this.cardsRepository.createCard(data);
+    // switch(data.card_type){
+    //   case "LEADER":
+    //     await this.cardsRepository.createLeader(data);
+    //   case "CHARACTER":
+    //     await this.cardsRepository.createCharacter(data);
+    //   case "EVENT":
+    //     await this.cardsRepository.createEvent(data);
+    //   case "STAGE":
+    //     await this.cardsRepository.createStage(data);
+    // }
   }
 }
 

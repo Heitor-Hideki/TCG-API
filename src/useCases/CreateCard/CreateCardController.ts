@@ -16,10 +16,10 @@ class CreateCardController {
       power,
       counter,
       effect,
-      triggerEffect,
+      trigger_effect,
       rarity,
       colors,
-      cardType,
+      card_type,
     } = request.body
 
     await this.createCardService.execute({
@@ -31,10 +31,10 @@ class CreateCardController {
       power,
       counter,
       effect,
-      triggerEffect,
+      trigger_effect,
       rarity,
       colors,
-      cardType,
+      card_type,
     })
 
     return response.status(204).json({})
