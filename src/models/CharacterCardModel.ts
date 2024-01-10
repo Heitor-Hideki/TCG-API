@@ -7,6 +7,8 @@ export interface CharacterCardModel {
   affiliation: string[];
   colors: enum_card_colors[];
   rarity: enum_card_rarities;
+  power: number;
+  counter: number|null;
   cost: number;
   effect: string|null;
   trigger_effect: string|null;
